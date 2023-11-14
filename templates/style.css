@@ -4,7 +4,7 @@
 }
 
 .title {
-    font-weight: bold; /* Corrected the property name */
+    font-weight: bold; 
     font-size: xx-large;
     text-align: center;
     border: gray 2px solid;

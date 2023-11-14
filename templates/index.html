@@ -1,139 +1,18 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <link rel="stylesheet" href="style.css">
-
-    
+    <title>Guess the plant</title>
 </head>
 <body>
+    <h1>Enter Text and Upload Image</h1>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <label for="text_input">Enter Text:</label>
+        <input type="text" id="text_input" name="text_input">
 
-    
-    <div>
-        <div class="flower-container">
-            <div class="stem"></div>
-            <div class="petal" style="transform: rotate(0deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(45deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(90deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(135deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(180deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(225deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(270deg) translate(10px); top: 10px;"></div>
-            <div class="petal" style="transform: rotate(315deg) translate(10px); top: 10px;"></div>
-        </div>
-    </div>
-    <svg class="stem" width="200" height="180" style="text-align: center;">
-        <path d="M100 10 C100 40, 70 70, 100 100 C130 130, 100 160, 100 190"
-        fill="none" 
-        stroke="green" 
-        stroke-width="3" 
-        stroke-dasharray="200" 
-        stroke-dashoffset="200" 
-        style="animation: stem-grow 2s ease-in-out forwards;" />
-    </svg>
+        <label for="image_input">Upload Image:</label>
+        <input type="file" id="image_input" name="image_input">
 
-   
-    
-
-    <div>
-        <div class="flower-container2">
-            <div class="stem"></div>
-            <div class="petal2" style="transform: rotate(0deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(45deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(90deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(135deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(180deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(225deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(270deg) translate(5px); top: 5px;"></div>
-            <div class="petal2" style="transform: rotate(315deg) translate(5px); top: 5px;"></div>
-        </div>
-    </div>
-    <svg class="stem" width="200" height="130" style="text-align: center;">
-        <path d="M160 10 C130 60, 110 50, 120 90 C130 120, 110 130, 100 180"
-        fill="none" 
-        stroke="green" 
-        stroke-width="3" 
-        stroke-dasharray="200" 
-        stroke-dashoffset="200" 
-        style="animation: stem-grow 2s ease-in-out forwards;" />
-    </svg>
-
-
-    <div>
-        <div class="flower-container3">
-            <div class="stem"></div>
-            <div class="petal3" style="transform: rotate(0deg) translate(4px); top: 5px;"></div>
-            <div class="petal3" style="transform: rotate(60deg) translate(4px); top: 5px;"></div>
-            <div class="petal3" style="transform: rotate(120deg) translate(4px); top: 5px;"></div>
-            <div class="petal3" style="transform: rotate(180deg) translate(4px); top: 5px;"></div>
-            <div class="petal3" style="transform: rotate(240deg) translate(4px); top: 5px;"></div>
-            <div class="petal3" style="transform: rotate(300deg) translate(4px); top: 5px;"></div>
-
-        </div>
-    </div>
-    <svg class="stem" width="200" height="140" style="text-align: center;">
-        <path d="M50 30 C100 40, 70 70, 100 100 C130 130, 100 160, 100 190"
-        fill="none" 
-        stroke="green" 
-        stroke-width="3" 
-        stroke-dasharray="200" 
-        stroke-dashoffset="200" 
-        style="animation: stem-grow 2s ease-in-out forwards;" />
-    </svg>
-
-
-    
-    
-
-    <!-- <svg class="stem" width="200" height="200" style="text-align: center;">
-        <path d="M100 10 C100 40, 70 70, 100 100 C130 130, 100 160, 100 190" fill="none" stroke="green" stroke-width="2" />
-    </svg> -->
-
-    <!-- response of app.py -->
-    <div class="result">
-        {% for disease in diseases %}
-            <p class="title">{{ disease.name }}</p>
-            <p id="desc" class="desc">
-                {{ disease.disease_details.description }}</p>
-        {% endfor %}
-        
-
-
-
-<script>
-    // Get the text content of the div
-    const text = document.getElementById('desc').textContent;
-  
-    // Split the text into an array of sentences
-    const sentences = text.split('. ');
-  
-    // Get the div element
-    const divElement = document.getElementById('desc');
-  
-    // Create an unordered list element
-    const ulElement = document.createElement('ul');
-    ulElement.classList.add('sentence-list');
-  
-    // Iterate through each sentence and create a list item for each
-    sentences.forEach(sentence => {
-      const liElement = document.createElement('li');
-      liElement.textContent = sentence.trim(); // Trim any leading/trailing whitespace
-      ulElement.appendChild(liElement);
-    });
-  
-    // Replace the content of the div with the unordered list
-    divElement.innerHTML = ''; // Clear the div
-    divElement.appendChild(ulElement);
-  </script>
-
-        
-</div>
-
-    
-      
-    
-    
-    
-    
+        <input type="submit" value="Submit">
+    </form>
 </body>
 </html>

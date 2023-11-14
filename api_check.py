@@ -1,14 +1,12 @@
-from flask import Flask, render_template
 import base64
 import requests
-
-app = Flask(__name__)
 
 def identify_plant(image_path):
     # Encode image to base64
     with open(image_path, "rb") as file:
         images = [base64.b64encode(file.read()).decode("ascii")]
 
+    # Make request to Plant.id API for plant identification
     response = requests.post(
         "https://api.plant.id/v2/identify",
         json={
@@ -31,35 +29,30 @@ def identify_plant(image_path):
             watering = suggestion["plant_details"].get("watering")
             propagation_methods = suggestion["plant_details"].get("propagation_methods")
             wiki_images = suggestion["plant_details"].get("wiki_images")
-            if wiki_images:
+
+
+
+            # Print identified plant details
+            if plant_name and common_names and plant_url and (probability>0.4) :
+                print(f"probability: {probability}")
+                print(f"Plant Name: {plant_name}")
+                print(f"Common Names: {', '.join(common_names)}")
+                print(f"Plant URL: {plant_url}")
+                print(f"Plant Watering: {watering}")
+                print(f"Plant propagation_methods: {propagation_methods}")
+                if wiki_images:
+                    print("Wikipedia Images:")
                     for image in wiki_images:
-                        image_value =  {image['value']}
-                        image_citation = {image['citation']}
-                        image_license_name = {image['license_name']}
-                        image_license_url = {image['license_url']}
-
-
+                        print(f"Image URL: {image['value']}")
+                        print(f"Citation: {image['citation']}")
+                        print(f"License Name: {image['license_name']}")
+                        print(f"License URL: {image['license_url']}")
+                        print("\n")
+                else:
+                    print("No Wikipedia Images Available")
+                print("\n")
     else:
         print("No plant suggestions found.")
 
-
-def index():
-    return render_template('index.html')
-
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if request.method == 'POST':
-        file = request.files['file']
-        if file:
-            # Save the uploaded file temporarily
-            file_path = "temp.jpg"
-            file.save(file_path)
-
-            # Identify the plant
-            identified_plant_details = identify_plant(file_path)
-
-            # Pass the identified details to the HTML template
-            return render_template('result.html', details=identified_plant_details)
-
-if __name__ == '__main__':
-    app.run(debug=True)
+# Call the function and pass the image path
+identify_plant("plant2.jpg")
