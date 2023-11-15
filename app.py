@@ -1,8 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import base64
 import requests
 
 app = Flask(__name__)
+
+def convert_watering_to_text(min_val, max_val):
+    watering_descriptions = {
+        1: "dry",
+        2: "medium",
+        3: "wet"
+    }
+
+    min_desc = watering_descriptions.get(min_val)
+    max_desc = watering_descriptions.get(max_val)
+
+    if min_desc and max_desc:
+        return f"{min_desc} to {max_desc}"
+    else:
+        return "Information not available"
 
 def identify_plant(image_path):
     # Encode image to base64
@@ -25,10 +40,24 @@ def identify_plant(image_path):
     if "suggestions" in response:
         for suggestion in response["suggestions"]:
             plant_name = suggestion.get("plant_name")
-            probability = suggestion.get("probability")
+
+            # convert probability to percentage
+            probability = int(suggestion.get("probability"))*100
+
+            # a list "common_names": ["Common dandelion", "Dandelion"]
             common_names = suggestion["plant_details"].get("common_names")
+
             plant_url = suggestion["plant_details"].get("url")
-            watering = suggestion["plant_details"].get("watering")
+
+            # {min:1, max:2}
+            watering_details = suggestion["plant_details"].get("watering")
+            if watering_details is not None:  # Check if watering_details exists
+                watering = convert_watering_to_text(watering_details.get("min"), watering_details.get("max"))
+            else:
+                watering = "Information not available"  # Or handle this case as needed
+
+            
+            # contains a list of propagation methods.
             propagation_methods = suggestion["plant_details"].get("propagation_methods")
             wiki_images = suggestion["plant_details"].get("wiki_images")
             if wiki_images:
@@ -42,7 +71,7 @@ def identify_plant(image_path):
     else:
         print("No plant suggestions found.")
 
-
+@app.route('/')
 def index():
     return render_template('index.html')
 

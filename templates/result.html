@@ -3,13 +3,17 @@
 
 <head>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <title>Guess the plant</title>
-
-    
 </head>
-<body>
 
-    
+<body>
+<div class="container">
+<div class="row">
+
+    <div class="col-md-2">
+
     <div>
         <div class="flower-container">
             <div class="stem"></div>
@@ -32,9 +36,6 @@
         stroke-dashoffset="200" 
         style="animation: stem-grow 2s ease-in-out forwards;" />
     </svg>
-
-   
-    
 
     <div>
         <div class="flower-container2">
@@ -59,7 +60,6 @@
         style="animation: stem-grow 2s ease-in-out forwards;" />
     </svg>
 
-
     <div>
         <div class="flower-container3">
             <div class="stem"></div>
@@ -81,23 +81,53 @@
         stroke-dashoffset="200" 
         style="animation: stem-grow 2s ease-in-out forwards;" />
     </svg>
+    </div>
 
 
-
+    <div class="col-md-9">
     <!-- response from app.py -->
-    <div >
+    <div class="result">
         {% if details %}
-            <p class="title">Plant Name: {{ details.plant_name }}</p>
-            <p>Common Names: {{ details.common_names }}</p>
+            if {{ details.plant_name }} and {{ details.common_names }}  and ({{ details.probability }}>40) :
+
+            <p class="title">With {{ details.probability }} chance, Plant Name is {{ details.plant_name }}</p>
+            <p>Common Names are {{ details.common_names }}</p>
+            <p>Watering should be {{ details.watering }}</p>
+            <P>Propagation methods are {{ details.propagation_methods }}</P>
+            <p>If you are looking for more information, here is a link: {{ details.plant_url }}</p>
+            <p>here are similar pictures of this plant from internet:</p>
+            <!-- <p>{{ details.wiki_images }}</p> -->
+
+            {% if details.wiki_images %}
+                <div class="image-container">
+                    {% for image in details.wiki_images %}
+                        <div class="image-item">
+                            <img src="{{ image.value }}" alt="Plant Image">
+                            <p>Citation: {{ image.citation }}</p>
+                            <p>License Name: {{ image.license_name }}</p>
+                            <p>License URL: {{ image.license_url }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No wiki images found.</p>
+            {% endif %}
+            
+            
+
+
             <!-- Display other identified details as needed -->
         {% else %}
             <p>No plant suggestions found.</p>
         {% endif %}
     </div>
+    </div>
+
+    
 
 
 
-    <script>
+    <!-- <script>
         // Get the text content of the div
         const text = document.getElementById('desc').textContent;
     
@@ -121,11 +151,11 @@
         // Replace the content of the div with the unordered list
         divElement.innerHTML = ''; // Clear the div
         divElement.appendChild(ulElement);
-    </script>
+    </script> -->
 
         
 
-
-    
+</div>
+</div>
 </body>
 </html>

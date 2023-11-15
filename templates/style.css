@@ -1,11 +1,11 @@
 .result {
-    margin-left: 250px;
+    /* margin-left: 250px; */
     padding: 5%;
 }
 
 .title {
     font-weight: bold; 
-    font-size: xx-large;
+    font-size: large;
     text-align: center;
     border: gray 2px solid;
     margin-top: 5%;
