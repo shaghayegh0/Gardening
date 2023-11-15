@@ -40,9 +40,10 @@ def identify_plant(image_path):
     if "suggestions" in response:
         for suggestion in response["suggestions"]:
             plant_name = suggestion.get("plant_name")
+            # print(plant_name)
 
             # convert probability to percentage
-            probability = int(suggestion.get("probability"))*100
+            probability = suggestion.get("probability")*100
 
             # a list "common_names": ["Common dandelion", "Dandelion"]
             common_names = suggestion["plant_details"].get("common_names")
@@ -59,6 +60,7 @@ def identify_plant(image_path):
             
             # contains a list of propagation methods.
             propagation_methods = suggestion["plant_details"].get("propagation_methods")
+            
             wiki_images = suggestion["plant_details"].get("wiki_images")
             if wiki_images:
                     for image in wiki_images:
@@ -69,7 +71,8 @@ def identify_plant(image_path):
 
 
     else:
-        print("No plant suggestions found.")
+        
+        return ("No plant suggestions found.")
 
 @app.route('/')
 def index():
@@ -85,10 +88,10 @@ def upload_file():
             file.save(file_path)
 
             # Identify the plant
-            identified_plant_details = identify_plant(file_path)
+            details = identify_plant(file_path)
 
             # Pass the identified details to the HTML template
-            return render_template('result.html', details=identified_plant_details)
+            return render_template('result.html', details = details)
 
 if __name__ == '__main__':
     app.run(debug=True)

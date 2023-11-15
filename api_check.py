@@ -1,6 +1,21 @@
 import base64
 import requests
 
+def convert_watering_to_text(min_val, max_val):
+    watering_descriptions = {
+        1: "dry",
+        2: "medium",
+        3: "wet"
+    }
+
+    min_desc = watering_descriptions.get(min_val)
+    max_desc = watering_descriptions.get(max_val)
+
+    if min_desc and max_desc:
+        return f"{min_desc} to {max_desc}"
+    else:
+        return "Information not available"
+
 def identify_plant(image_path):
     # Encode image to base64
     with open(image_path, "rb") as file:
@@ -23,17 +38,21 @@ def identify_plant(image_path):
     if "suggestions" in response:
         for suggestion in response["suggestions"]:
             plant_name = suggestion.get("plant_name")
-            probability = suggestion.get("probability")
+            probability = suggestion.get("probability")*100
             common_names = suggestion["plant_details"].get("common_names")
             plant_url = suggestion["plant_details"].get("url")
-            watering = suggestion["plant_details"].get("watering")
             propagation_methods = suggestion["plant_details"].get("propagation_methods")
             wiki_images = suggestion["plant_details"].get("wiki_images")
-
+            watering_details = suggestion["plant_details"].get("watering")
+            if watering_details is not None:  # Check if watering_details exists
+                watering = convert_watering_to_text(watering_details.get("min"), watering_details.get("max"))
+            else:
+                watering = "Information not available"  # Or handle this case as needed
+            
 
 
             # Print identified plant details
-            if plant_name and common_names and plant_url and (probability>0.4) :
+            if plant_name and common_names and plant_url and probability>40:
                 print(f"probability: {probability}")
                 print(f"Plant Name: {plant_name}")
                 print(f"Common Names: {', '.join(common_names)}")

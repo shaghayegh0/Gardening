@@ -87,16 +87,18 @@
     <div class="col-md-9">
     <!-- response from app.py -->
     <div class="result">
-        {% if details %}
-            if {{ details.plant_name }} and {{ details.common_names }}  and ({{ details.probability }}>40) :
 
+        <p>plant name is :::::::{{ details.plant_name }}</p>
+        <p>{{details}}</p>
+        {% if details %}
+            if {{ details.plant_name }} and {{ details.common_names }} and ({{ details.probability }} > 40):
+            <!-- and ({{ details.probability }}>40) -->
             <p class="title">With {{ details.probability }} chance, Plant Name is {{ details.plant_name }}</p>
             <p>Common Names are {{ details.common_names }}</p>
             <p>Watering should be {{ details.watering }}</p>
             <P>Propagation methods are {{ details.propagation_methods }}</P>
             <p>If you are looking for more information, here is a link: {{ details.plant_url }}</p>
             <p>here are similar pictures of this plant from internet:</p>
-            <!-- <p>{{ details.wiki_images }}</p> -->
 
             {% if details.wiki_images %}
                 <div class="image-container">
@@ -114,11 +116,8 @@
             {% endif %}
             
             
-
-
-            <!-- Display other identified details as needed -->
         {% else %}
-            <p>No plant suggestions found.</p>
+            <p>No plants were found.</p>
         {% endif %}
     </div>
     </div>
