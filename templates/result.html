@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <title>Guess the plant</title>
+</head>
+
+<body>
+<div class="container">
+<div class="row">
+
+    <div class="col-md-2">
+
+    <div>
+        <div class="flower-container">
+            <div class="stem"></div>
+            <div class="petal" style="transform: rotate(0deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(45deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(90deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(135deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(180deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(225deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(270deg) translate(10px); top: 10px;"></div>
+            <div class="petal" style="transform: rotate(315deg) translate(10px); top: 10px;"></div>
+        </div>
+    </div>
+    <svg class="stem" width="200" height="180" style="text-align: center;">
+        <path d="M100 10 C100 40, 70 70, 100 100 C130 130, 100 160, 100 190"
+        fill="none" 
+        stroke="green" 
+        stroke-width="3" 
+        stroke-dasharray="200" 
+        stroke-dashoffset="200" 
+        style="animation: stem-grow 2s ease-in-out forwards;" />
+    </svg>
+
+    <div>
+        <div class="flower-container2">
+            <div class="stem"></div>
+            <div class="petal2" style="transform: rotate(0deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(45deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(90deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(135deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(180deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(225deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(270deg) translate(5px); top: 5px;"></div>
+            <div class="petal2" style="transform: rotate(315deg) translate(5px); top: 5px;"></div>
+        </div>
+    </div>
+    <svg class="stem" width="200" height="130" style="text-align: center;">
+        <path d="M160 10 C130 60, 110 50, 120 90 C130 120, 110 130, 100 180"
+        fill="none" 
+        stroke="green" 
+        stroke-width="3" 
+        stroke-dasharray="200" 
+        stroke-dashoffset="200" 
+        style="animation: stem-grow 2s ease-in-out forwards;" />
+    </svg>
+
+    <div>
+        <div class="flower-container3">
+            <div class="stem"></div>
+            <div class="petal3" style="transform: rotate(0deg) translate(4px); top: 5px;"></div>
+            <div class="petal3" style="transform: rotate(60deg) translate(4px); top: 5px;"></div>
+            <div class="petal3" style="transform: rotate(120deg) translate(4px); top: 5px;"></div>
+            <div class="petal3" style="transform: rotate(180deg) translate(4px); top: 5px;"></div>
+            <div class="petal3" style="transform: rotate(240deg) translate(4px); top: 5px;"></div>
+            <div class="petal3" style="transform: rotate(300deg) translate(4px); top: 5px;"></div>
+
+        </div>
+    </div>
+    <svg class="stem" width="200" height="140" style="text-align: center;">
+        <path d="M50 30 C100 40, 70 70, 100 100 C130 130, 100 160, 100 190"
+        fill="none" 
+        stroke="green" 
+        stroke-width="3" 
+        stroke-dasharray="200" 
+        stroke-dashoffset="200" 
+        style="animation: stem-grow 2s ease-in-out forwards;" />
+    </svg>
+    </div>
+
+
+    <div class="col-md-9">
+    <!-- response from app.py -->
+    <div class="result">
+
+        <p>plant name is :::::::{{ details.plant_name }}</p>
+        <p>{{details}}</p>
+        {% if details %}
+            if {{ details.plant_name }} and {{ details.common_names }} and ({{ details.probability }} > 40):
+            <!-- and ({{ details.probability }}>40) -->
+            <p class="title">With {{ details.probability }} chance, Plant Name is {{ details.plant_name }}</p>
+            <p>Common Names are {{ details.common_names }}</p>
+            <p>Watering should be {{ details.watering }}</p>
+            <P>Propagation methods are {{ details.propagation_methods }}</P>
+            <p>If you are looking for more information, here is a link: {{ details.plant_url }}</p>
+            <p>here are similar pictures of this plant from internet:</p>
+
+            {% if details.wiki_images %}
+                <div class="image-container">
+                    {% for image in details.wiki_images %}
+                        <div class="image-item">
+                            <img src="{{ image.value }}" alt="Plant Image">
+                            <p>Citation: {{ image.citation }}</p>
+                            <p>License Name: {{ image.license_name }}</p>
+                            <p>License URL: {{ image.license_url }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No wiki images found.</p>
+            {% endif %}
+            
+            
+        {% else %}
+            <p>No plants were found.</p>
+        {% endif %}
+    </div>
+    </div>
+
+    
+
+
+
+    <!-- <script>
+        // Get the text content of the div
+        const text = document.getElementById('desc').textContent;
+    
+        // Split the text into an array of sentences
+        const sentences = text.split('. ');
+    
+        // Get the div element
+        const divElement = document.getElementById('desc');
+    
+        // Create an unordered list element
+        const ulElement = document.createElement('ul');
+        ulElement.classList.add('sentence-list');
+    
+        // Iterate through each sentence and create a list item for each
+        sentences.forEach(sentence => {
+        const liElement = document.createElement('li');
+        liElement.textContent = sentence.trim(); // Trim any leading/trailing whitespace
+        ulElement.appendChild(liElement);
+        });
+    
+        // Replace the content of the div with the unordered list
+        divElement.innerHTML = ''; // Clear the div
+        divElement.appendChild(ulElement);
+    </script> -->
+
+        
+
+</div>
+</div>
+</body>
+</html>
