@@ -1,6 +1,4 @@
-Certainly! Here's a sample `README.md` file for your gardening project:
 
----
 
 # Gardening Assistant
 
